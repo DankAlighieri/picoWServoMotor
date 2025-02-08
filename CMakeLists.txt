@@ -56,6 +56,7 @@ target_include_directories(servoMotorPWMWokwi PRIVATE
 # Add any user requested libraries
 target_link_libraries(servoMotorPWMWokwi 
         hardware_pwm
+        hardware_timer
         )
 
 pico_add_extra_outputs(servoMotorPWMWokwi)
