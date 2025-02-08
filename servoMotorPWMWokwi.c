@@ -60,7 +60,7 @@ void initial_servo_routine(){
 }
 
 void periodic_servo_motion() {
-
+            
 }
 
 int main() {
@@ -71,26 +71,3 @@ int main() {
         initial_servo_routine();
     }
 }
-
-/*
-void wrap_handler(){
-    static bool subindo = true;
-    static uint nivel = 0;
-    pwm_clear_irq(pwm_gpio_to_slice_num(SERVO_PIN));
-
-    if(subindo) {
-        nivel++;
-        if (nivel > 1000) {
-            nivel = 1000;
-            subindo = false;
-        }
-    } else {
-        nivel--;
-        if(nivel < 0){
-            nivel = 0;
-            subindo = true;
-        }
-    }
-    pwm_set_gpio_level(SERVO_PIN, nivel * nivel);
-}
-*/
