@@ -83,7 +83,7 @@ int main() {
     setup_servo_pwm();
 
     while (true) {
-        //initial_servo_routine();
+        initial_servo_routine();
         periodic_servo_motion();
     }
 }
