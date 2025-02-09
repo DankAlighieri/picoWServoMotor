@@ -64,7 +64,7 @@ int main() {
     setup_servo_pwm();
 
     // Ajustar para 5000ms
-    add_repeating_timer_ms(1000, first_timer_callback, NULL, &first_timer);
+    add_repeating_timer_ms(5000, first_timer_callback, NULL, &first_timer);
 
     pwm_set_gpio_level(SERVO_PIN, DUTY_CYCLE_180);
     printf("Servo em 180 graus\n");
@@ -122,7 +122,7 @@ bool second_timer_callback(struct repeating_timer *t) {
         active_cycle = ACTIVE_CYCLE0;
         current_state = FIRST_ROUTINE_90;
         // Ajustar para 5000ms
-        add_repeating_timer_ms(1000, first_timer_callback, NULL, &first_timer);
+        add_repeating_timer_ms(5000, first_timer_callback, NULL, &first_timer);
 
         return false;
     }
