@@ -44,6 +44,10 @@ O código utiliza-se de temporizador para desacoplar o gerenciamento do servo da
 
 [Vídeo demonstrativo do projeto](https://drive.google.com/file/d/1CdwJAgXApzQgmOPzIIlO-odINWTJ19pA/view?usp=sharing)
 
+## Como executar
+
+O Projeto pode ser executado clonando este repositório e importando como projeto pico no Visual Studio Code
+
 ## 👥 Autoria
 
 **Guilherme Emetério Santos Lima**  
