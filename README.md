@@ -16,30 +16,29 @@ Desenvolvido em C utilizando:
 
 ## 🎯 Funcionamento
 
-### Estado Inicial
-
-- Flange do servo motor inicializa num ângulo de 180 graus;
-- Mensagem é enviada ao terminal serial informando a posição angular atual da flange do servo;
-- É criado um temporizador repetitivo inicial para mudar o estado do servo a cada 5 segundos;
-
 ### Fluxo de Operação
 
-- Após 5 segundos:
-    1. Flange vai para a posição 90 graus;
-    2. Mensagem "Servo em 90 graus" enviado ao terminal serial;
-- Após 10 segundos:
-    1. Flange vai para a posição 0 graus;
-    2. Mensagem "Servo em 0 graus" enviado ao terminal serial;
-- Após 15 segundos:
-    1. Cancelado o temporizador inicial;
-    2. Inicializado um segundo temporizador para fazer a transição suave do servo do ângulo 0 ao 180;
-- Após Atingir 180 graus:
-    1. Cancelado o segundo temporizador;
-    2. Primeiro temporizador é recriado, assim formando um loop.
+- **Tempo 0s (Início):**  
+  - Servo inicia em 180° com mensagem "Servo em 180 graus".  
+  - Temporizador inicial é criado (muda estados a cada 5s).  
+
+- **Após 5s:**  
+  1. Servo move para 90° ("Servo em 90 graus").  
+
+- **Após 10s (5s após o anterior):**  
+  1. Servo move para 0° ("Servo em 0 graus").  
+
+- **Após 15s (5s após o anterior):**  
+  1. Temporizador inicial é cancelado.  
+  2. Segundo temporizador inicia, movendo o servo suavemente de 0° a 180°.  
+
+- **Ao atingir 180°:**  
+  1. Segundo temporizador é cancelado.  
+  2. Primeiro temporizador é reiniciado, criando um loop.
 
 ## 🤓 Explicação
 
-O código utilia-se de temporizador para desacoplar o gerenciamento do servo da cpu. Para a primeira rotina foi criado um enum para definir qual o estado atual e preparar para a proxima mudança de estado com um delay de 5 segundos entre cada transição. Após finalizada a primeira rotina um temporizador repetitivo é criado para chamar a segunda rotina que fará o servo ir do ângulo 0 ao 180 de forma suave. Após a chegada do servo na posição final, o segundo temporizador é cancelado e o primeiro é recriado, fazendo com que o código funcione em forma de loop, mas sendo gerenciado apenas pelo hardware.
+O código utiliza-se de temporizador para desacoplar o gerenciamento do servo da cpu. Para a primeira rotina foi criado um enum para definir qual o estado atual e preparar para a próxima mudança de estado com um delay de 5 segundos entre cada transição. Após finalizada a primeira rotina o primeiro temporizador é cancelado e um segundo é criado para chamar a segunda rotina que fará o servo ir do ângulo 0 ao 180 de forma suave. Após a chegada do servo na posição final, o segundo temporizador é cancelado e o primeiro é recriado, fazendo com que o código funcione em forma de loop, mas sendo gerenciado apenas pelo hardware.
 
 ### 🎥 Vídeo
 
