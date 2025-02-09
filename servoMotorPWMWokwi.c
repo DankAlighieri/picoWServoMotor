@@ -40,6 +40,7 @@
 #define DUTY_CYCLE_90 4817
 #define DUTY_CYCLE_0 1638
 
+// enum para facilitar a logica na primeira rotina temporizada
 typedef enum {
     FIRST_ROUTINE_90, 
     FIRST_ROUTINE_0, 
@@ -48,11 +49,13 @@ typedef enum {
 
 volatile first_routine_state current_state = FIRST_ROUTINE_90;
 
+// Variaveis para manipular o servo durante a segunda rotina temporizada
 float active_cycle;
 uint16_t duty_cycle;
 
 uint setup_servo_pwm();
 
+// Temporizadores para controler o servo
 bool first_timer_callback(struct repeating_timer *t);
 bool second_timer_callback(struct repeating_timer *t);
 
@@ -63,20 +66,25 @@ int main() {
     stdio_init_all();
     setup_servo_pwm();
 
-    // Ajustar para 5000ms
+    // Chamando primeira rotina
     add_repeating_timer_ms(5000, first_timer_callback, NULL, &first_timer);
 
+    // Inicializando o servo em 180 graus
     pwm_set_gpio_level(SERVO_PIN, DUTY_CYCLE_180);
     printf("Servo em 180 graus\n");
 
     while (true) {
+        // No op
         tight_loop_contents();
     }
 }
 
 uint setup_servo_pwm() {
+    // Inicializando o GPIO como PWM
     gpio_set_function(SERVO_PIN, GPIO_FUNC_PWM);
     uint slice = pwm_gpio_to_slice_num(SERVO_PIN);
+
+    // Utilizando configuracoes padroes
     pwm_config config = pwm_get_default_config();
 
     pwm_config_set_clkdiv(&config, CLK_DIV);
@@ -89,11 +97,13 @@ bool first_timer_callback(struct repeating_timer *t) {
     switch (current_state) {
         // First routine
         case FIRST_ROUTINE_90:
+            // Configura o servo para 90 graus
             printf("Servo em 90 graus\n");
             pwm_set_gpio_level(SERVO_PIN, DUTY_CYCLE_90);        
             current_state = FIRST_ROUTINE_0;
             break;
         case FIRST_ROUTINE_0:
+            // Configura o servo para 0 graus
             printf("Servo em 0 graus\n");
             pwm_set_gpio_level(SERVO_PIN, DUTY_CYCLE_0);
             current_state = FIRST_ROUTINE_FINISHED;
@@ -102,7 +112,7 @@ bool first_timer_callback(struct repeating_timer *t) {
             // Necessario cancelar timer atual para nao interferir no proximo
             cancel_repeating_timer(&first_timer);
             active_cycle = ACTIVE_CYCLE0;
-            // Ajustar para 10ms
+            // Chamando a segunda rotina
             add_repeating_timer_ms(10, second_timer_callback, NULL, &second_timer);
             break;
         default:
@@ -113,20 +123,25 @@ bool first_timer_callback(struct repeating_timer *t) {
 }
 
 bool second_timer_callback(struct repeating_timer *t) {
-    active_cycle += 0.005;
 
+    // Segunda rotina
+    active_cycle += 0.005;
+    // Caso o servo chegue em 180 graus
     if (active_cycle >= ACTIVE_CYCLE180) {
         // Cancelar para nao interferir no proximo timer
         cancel_repeating_timer(&second_timer);
         printf("Servo em 180 graus\n");
+        // Reinicializando o ciclo ativo
         active_cycle = ACTIVE_CYCLE0;
+        // Resetando a flag para controlar as transições de estado do servo na primeira rotina
         current_state = FIRST_ROUTINE_90;
-        // Ajustar para 5000ms
+        // Chamando a segunda rotina
         add_repeating_timer_ms(5000, first_timer_callback, NULL, &first_timer);
 
         return false;
     }
     
+    // Calculando o duty cycle
     uint16_t duty_cycle = (uint16_t)((active_cycle/PWM_PERIOD) * (WRAP + 1));
     pwm_set_gpio_level(SERVO_PIN, duty_cycle);
     printf("Duty: %d (%.3f ms)\n", duty_cycle, active_cycle);
