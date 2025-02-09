@@ -19,8 +19,8 @@ Desenvolvido em C utilizando:
 ### Fluxo de Operação
 
 - **Tempo 0s (Início):**  
-  - Servo inicia em 180° com mensagem "Servo em 180 graus".  
-  - Temporizador inicial é criado (muda estados a cada 5s).  
+  1. Servo inicia em 180° com mensagem "Servo em 180 graus".  
+  2. Temporizador inicial é criado (muda estados a cada 5s).  
 
 - **Após 5s:**  
   1. Servo move para 90° ("Servo em 90 graus").  
