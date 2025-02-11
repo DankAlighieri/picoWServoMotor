@@ -40,6 +40,10 @@ Desenvolvido em C utilizando:
 
 O código utiliza-se de temporizador para desacoplar o gerenciamento do servo da cpu. Para a primeira rotina foi criado um enum para definir qual o estado atual e preparar para a próxima mudança de estado com um delay de 5 segundos entre cada transição. Após finalizada a primeira rotina o primeiro temporizador é cancelado e um segundo é criado para chamar a segunda rotina que fará o servo ir do ângulo 0 ao 180 de forma suave. Após a chegada do servo na posição final, o segundo temporizador é cancelado e o primeiro é recriado, fazendo com que o código funcione em forma de loop, mas sendo gerenciado apenas pelo hardware.
 
+### Código na placa BitDogLab
+
+Devido à baixa frequência do PWM e à forma como o duty cycle é atualizado, o olho humano não consegue processar as mudanças de estado de forma suave, logo as transições de estado ocorrem de forma ou imperceptível, ou bruscas dando um efeito de flickering.
+
 ### 🎥 Vídeo
 
 [Vídeo demonstrativo do projeto](https://drive.google.com/file/d/1CdwJAgXApzQgmOPzIIlO-odINWTJ19pA/view?usp=sharing)

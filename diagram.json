@@ -11,7 +11,7 @@
       [ "pico:GP1", "$serialMonitor:TX", "", [] ],
       [ "pico:3V3", "servo1:V+", "red", [ "h0" ] ],
       [ "pico:GND.8", "servo1:GND", "black", [ "h29.11", "v9.6", "h9.6" ] ],
-      [ "pico:GP28", "servo1:PWM", "green", [ "h29.11", "v-9.6" ] ]
+      [ "pico:GP22", "servo1:PWM", "green", [ "h29.11", "v-9.6" ] ]
     ],
     "dependencies": {}
 }
