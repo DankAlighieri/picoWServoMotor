@@ -26,7 +26,7 @@
 #include "hardware/pwm.h"
 #include "hardware/timer.h"
 
-#define SERVO_PIN 12
+#define SERVO_PIN 22
 #define WRAP 65535
 
 #define ACTIVE_CYCLE180 2.4
